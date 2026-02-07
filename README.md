@@ -1,50 +1,71 @@
-# Welcome to your Expo app 👋
+# Event Check-in App 🎟️
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Um aplicativo mobile premium desenvolvido com **React Native** e **Expo** para gestão de eventos e check-in via QR Code. O app oferece uma experiência fluida tanto para organizadores quanto para participantes.
 
-## Get started
+## ✨ Funcionalidades
 
-1. Install dependencies
+### 🔐 Autenticação e Perfis
+- **Fluxo de Login/Cadastro**: Design moderno com animações suaves.
+- **Multi-Perfil**: Suporte para visões distintas entre **Organizador** e **Participante**.
+- **Persistência de Sessão**: Armazenamento seguro de tokens com `expo-secure-store`.
 
+### 👨‍💼 Visão do Organizador
+- **Dashboard de Eventos**: Lista de eventos criados com estatísticas de inscritos.
+- **Scanner QR Code**: Validação ultrarrápida de ingressos usando a câmera.
+- **Gestão de Participantes**: Busca e visualização de status de presença em tempo real.
+- **Relatórios**: Gráficos e métricas de performance do evento.
+
+### 👤 Visão do Participante
+- **Explorar Eventos**: Descoberta de novos eventos por categoria.
+- **Meus Ingressos**: Central de ingressos com status de check-in.
+- **QR Code do Ingresso**: Acesso fácil ao código para validação na entrada.
+- **Perfil**: Gestão de dados pessoais e configurações.
+
+### 📶 Diferenciais Técnicos
+- **Modo Offline**: Check-ins realizados offline são salvos localmente e sincronizados automaticamente quando houver conexão.
+- **Design Premium**: Interface baseada em Dark Mode com Glassmorphism e micro-interações.
+- **Performance**: Construído com `Zustand` para estado leve e `Reanimated` para 60fps.
+
+## 🚀 Stack Tecnológica
+
+- **Core**: React Native + Expo (SDK 54)
+- **Navegação**: Expo Router (File-based routing)
+- **Estado**: Zustand + Middleware de Persistência
+- **Estilização**: Vanilla StyleSheet + Paleta de Cores Premium (HSL)
+- **Animações**: React Native Reanimated
+- **Câmera**: Expo Camera / CameraView
+- **Ícones**: Lucide React Native
+- **Storage**: Expo SecureStore & AsyncStorage
+
+## 📂 Estrutura de Pastas
+
+```text
+├── app/                  # Rotas e telas do Expo Router
+│   ├── (auth)/           # Fluxos de login e registro
+│   ├── (organizer)/      # Funcionalidades exclusivas do organizador
+│   ├── (participant)/    # Funcionalidades exclusivas do participante
+│   └── _layout.tsx       # Configuração global de navegação e proteção
+├── components/           # Componentes de UI reutilizáveis
+│   └── ui/               # Botões, inputs e elementos base
+├── store/                # Gerenciamento de estado (Auth, Offline)
+├── services/             # Configuração da API (Axios)
+├── theme/                # Design System e tokens de cores
+└── assets/               # Imagens e recursos estáticos
+```
+
+## 🛠️ Como Executar
+
+1. **Instale as dependências**:
    ```bash
    npm install
    ```
 
-2. Start the app
-
+2. **Inicie o servidor de desenvolvimento**:
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+3. **Abra no seu dispositivo**:
+   Use o app **Expo Go** no seu smartphone e escaneie o QR Code gerado no terminal.
+---
+Desenvolvido com foco em UX e Performance. 🚀
