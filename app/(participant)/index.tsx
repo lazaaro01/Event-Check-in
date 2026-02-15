@@ -1,8 +1,8 @@
+import { Input } from '@/components/ui/Input';
+import { colors } from '@/theme/colors';
 import { Bell, Calendar, MapPin, Search } from 'lucide-react-native';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Input } from '../../components/ui/Input';
-import { colors } from '../../theme/colors';
 
 const CATEGORIES = ['Tudo', 'Tecnologia', 'Design', 'Negócios', 'Música'];
 

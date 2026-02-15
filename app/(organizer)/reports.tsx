@@ -1,7 +1,7 @@
+import { colors } from '@/theme/colors';
 import { BarChart3, CheckCircle2, Users } from 'lucide-react-native';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { colors } from '../../theme/colors';
 
 export default function ReportsScreen() {
     return (

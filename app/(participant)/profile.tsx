@@ -1,8 +1,8 @@
+import { useAuthStore } from '@/store/useAuthStore';
+import { colors } from '@/theme/colors';
 import { Bell, ChevronRight, HelpCircle, LogOut, Settings, Shield, User } from 'lucide-react-native';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useAuthStore } from '../../store/useAuthStore';
-import { colors } from '../../theme/colors';
 
 export default function ProfileScreen() {
     const logout = useAuthStore(state => state.logout);

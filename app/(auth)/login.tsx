@@ -1,3 +1,7 @@
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { useAuthStore } from '@/store/useAuthStore';
+import { colors } from '@/theme/colors';
 import { useRouter } from 'expo-router';
 import { CheckCircle2, Lock, Mail } from 'lucide-react-native';
 import React, { useState } from 'react';
@@ -11,10 +15,6 @@ import {
     View
 } from 'react-native';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
-import { Button } from '../../components/ui/Button';
-import { Input } from '../../components/ui/Input';
-import { useAuthStore } from '../../store/useAuthStore';
-import { colors } from '../../theme/colors';
 
 export default function LoginScreen() {
     const router = useRouter();

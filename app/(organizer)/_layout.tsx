@@ -1,7 +1,7 @@
+import { colors } from '@/theme/colors';
 import { Tabs } from 'expo-router';
 import { BarChart3, Calendar, Scan, Users } from 'lucide-react-native';
 import React from 'react';
-import { colors } from '../../theme/colors';
 
 export default function OrganizerLayout() {
     return (

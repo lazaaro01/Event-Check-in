@@ -1,18 +1,40 @@
+import { Button } from '@/components/ui/Button';
+import { colors } from '@/theme/colors';
 import { CameraView, useCameraPermissions } from 'expo-camera';
+import * as Haptics from 'expo-haptics';
 import { RefreshCw, Zap } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Button } from '../../components/ui/Button';
-import { colors } from '../../theme/colors';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Animated, {
+    Easing,
+    useAnimatedStyle,
+    useSharedValue,
+    withRepeat,
+    withTiming
+} from 'react-native-reanimated';
 
 export default function ScannerScreen() {
     const [permission, requestPermission] = useCameraPermissions();
     const [scanned, setScanned] = useState(false);
     const [torch, setTorch] = useState(false);
 
+    const scanLinePosition = useSharedValue(0);
+
     useEffect(() => {
         requestPermission();
+        scanLinePosition.value = withRepeat(
+            withTiming(250, {
+                duration: 2000,
+                easing: Easing.inOut(Easing.ease)
+            }),
+            -1,
+            true
+        );
     }, []);
+
+    const animatedLineStyle = useAnimatedStyle(() => ({
+        transform: [{ translateY: scanLinePosition.value }],
+    }));
 
     if (!permission) {
         return <View style={styles.container} />;
@@ -28,12 +50,17 @@ export default function ScannerScreen() {
     }
 
     const handleBarcodeScanned = ({ type, data }: { type: string, data: string }) => {
+        if (scanned) return;
+
         setScanned(true);
-        Alert.alert(
-            'Check-in Validado!',
-            `Participante: João Silva\nID: ${data}`,
-            [{ text: 'OK', onPress: () => setScanned(false) }]
-        );
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        import('react-native').then(({ Alert }) => {
+            Alert.alert(
+                'Check-in Validado!',
+                `Participante: João Silva\nID: ${data}`,
+                [{ text: 'OK', onPress: () => setScanned(false) }]
+            );
+        });
     };
 
     return (
@@ -49,12 +76,12 @@ export default function ScannerScreen() {
 
             <View style={styles.overlay}>
                 <View style={styles.header}>
-                    <Text style={styles.headerTitle}>Scan QR Code</Text>
+                    <Text style={styles.headerTitle}>Validar Ingresso</Text>
                     <TouchableOpacity
-                        style={styles.iconButton}
+                        style={[styles.iconButton, torch && styles.iconButtonActive]}
                         onPress={() => setTorch(!torch)}
                     >
-                        <Zap size={24} color={torch ? colors.warning : colors.text} />
+                        <Zap size={24} color={torch ? colors.primary : colors.text} />
                     </TouchableOpacity>
                 </View>
 
@@ -64,6 +91,10 @@ export default function ScannerScreen() {
                         <View style={[styles.corner, styles.topRight]} />
                         <View style={[styles.corner, styles.bottomLeft]} />
                         <View style={[styles.corner, styles.bottomRight]} />
+
+                        {!scanned && (
+                            <Animated.View style={[styles.scanLine, animatedLineStyle]} />
+                        )}
                     </View>
                     <Text style={styles.hint}>Aponte para o QR Code do ingresso</Text>
                 </View>
@@ -71,7 +102,7 @@ export default function ScannerScreen() {
                 <View style={styles.footer}>
                     {scanned && (
                         <Button
-                            title="Escanear Novamente"
+                            title="Escanear Próximo"
                             onPress={() => setScanned(false)}
                             icon={<RefreshCw size={20} color={colors.text} />}
                         />
@@ -98,7 +129,7 @@ const styles = StyleSheet.create({
     },
     overlay: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0,0,0,0.5)',
+        backgroundColor: 'rgba(0,0,0,0.6)',
         justifyContent: 'space-between',
         padding: 40,
     },
@@ -110,7 +141,7 @@ const styles = StyleSheet.create({
     },
     headerTitle: {
         color: '#fff',
-        fontSize: 20,
+        fontSize: 22,
         fontWeight: 'bold',
     },
     iconButton: {
@@ -120,6 +151,12 @@ const styles = StyleSheet.create({
         borderRadius: 24,
         justifyContent: 'center',
         alignItems: 'center',
+        borderWidth: 1,
+        borderColor: 'rgba(255,255,255,0.1)',
+    },
+    iconButtonActive: {
+        backgroundColor: 'rgba(99, 102, 241, 0.2)',
+        borderColor: colors.primary,
     },
     scannerContainer: {
         alignItems: 'center',
@@ -128,8 +165,18 @@ const styles = StyleSheet.create({
     scannerFrame: {
         width: 250,
         height: 250,
-        borderWidth: 0,
         position: 'relative',
+    },
+    scanLine: {
+        position: 'absolute',
+        width: '100%',
+        height: 2,
+        backgroundColor: colors.primary,
+        shadowColor: colors.primary,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.8,
+        shadowRadius: 10,
+        elevation: 5,
     },
     corner: {
         position: 'absolute',
@@ -169,8 +216,13 @@ const styles = StyleSheet.create({
     hint: {
         color: '#fff',
         marginTop: 30,
-        fontSize: 14,
+        fontSize: 15,
         fontWeight: '500',
+        backgroundColor: 'rgba(0,0,0,0.4)',
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: 20,
+        overflow: 'hidden',
     },
     footer: {
         marginBottom: 40,

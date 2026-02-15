@@ -1,8 +1,9 @@
-import { MapPin, Plus, Users } from 'lucide-react-native';
+import { useAuthStore } from '@/store/useAuthStore';
+import { colors } from '@/theme/colors';
+import { LogOut, MapPin, Plus, Users } from 'lucide-react-native';
 import React from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInRight } from 'react-native-reanimated';
-import { colors } from '../../theme/colors';
 
 const MOCK_EVENTS = [
     { id: '1', title: 'Tech Conference 2026', date: '15 Mai', location: 'São Paulo, SP', participants: 120, checkins: 45 },
@@ -11,6 +12,9 @@ const MOCK_EVENTS = [
 ];
 
 export default function OrganizerEvents() {
+    const logout = useAuthStore(state => state.logout);
+    const user = useAuthStore(state => state.user);
+
     const renderItem = ({ item, index }: { item: typeof MOCK_EVENTS[0], index: number }) => (
         <Animated.View entering={FadeInRight.delay(index * 100).duration(500)}>
             <TouchableOpacity style={styles.eventCard}>
@@ -44,12 +48,17 @@ export default function OrganizerEvents() {
         <View style={styles.container}>
             <View style={styles.header}>
                 <View>
-                    <Text style={styles.greeting}>Olá, Organizador</Text>
+                    <Text style={styles.greeting}>Olá, {user?.name || 'Organizador'}</Text>
                     <Text style={styles.title}>Seus Eventos</Text>
                 </View>
-                <TouchableOpacity style={styles.addButton}>
-                    <Plus size={24} color={colors.text} />
-                </TouchableOpacity>
+                <View style={styles.headerActions}>
+                    <TouchableOpacity style={styles.logoutButton} onPress={logout}>
+                        <LogOut size={22} color={colors.error} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.addButton}>
+                        <Plus size={24} color={colors.text} />
+                    </TouchableOpacity>
+                </View>
             </View>
 
             <FlatList
@@ -84,6 +93,21 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         color: colors.text,
+    },
+    headerActions: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
+    },
+    logoutButton: {
+        width: 48,
+        height: 48,
+        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+        borderRadius: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: 'rgba(239, 68, 68, 0.1)',
     },
     addButton: {
         width: 48,

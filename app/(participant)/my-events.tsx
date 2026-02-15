@@ -1,8 +1,8 @@
+import { colors } from '@/theme/colors';
 import { Calendar, MapPin, QrCode } from 'lucide-react-native';
 import React from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInLeft } from 'react-native-reanimated';
-import { colors } from '../../theme/colors';
 
 const MOCK_TICKETS = [
     {

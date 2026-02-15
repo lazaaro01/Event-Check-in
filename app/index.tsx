@@ -1,7 +1,7 @@
+import { useAuthStore } from '@/store/useAuthStore';
+import { colors } from '@/theme/colors';
 import { Redirect } from 'expo-router';
 import { ActivityIndicator, View } from 'react-native';
-import { useAuthStore } from '../store/useAuthStore';
-import { colors } from '../theme/colors';
 
 export default function Index() {
     const { isAuthenticated, isLoading, user } = useAuthStore();

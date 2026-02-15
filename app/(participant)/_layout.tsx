@@ -1,7 +1,7 @@
+import { colors } from '@/theme/colors';
 import { Tabs } from 'expo-router';
 import { Compass, Ticket, User } from 'lucide-react-native';
 import React from 'react';
-import { colors } from '../../theme/colors';
 
 export default function ParticipantLayout() {
     return (

@@ -1,3 +1,4 @@
+import { colors } from '@/theme/colors';
 import React from 'react';
 import {
     ActivityIndicator,
@@ -8,7 +9,6 @@ import {
     View,
     ViewStyle
 } from 'react-native';
-import { colors } from '../../theme/colors';
 
 interface ButtonProps {
     onPress: () => void;

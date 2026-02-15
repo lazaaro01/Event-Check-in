@@ -1,9 +1,9 @@
+import { useAuthStore } from '@/store/useAuthStore';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { useAuthStore } from '../store/useAuthStore';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -21,13 +21,17 @@ export default function RootLayout() {
 
         const inAuthGroup = segments[0] === '(auth)';
 
-        if (!isAuthenticated && !inAuthGroup) {
-            router.replace('/(auth)/login');
-        } else if (isAuthenticated && inAuthGroup) {
-            if (user?.role === 'organizer') {
-                router.replace('/(organizer)');
-            } else {
-                router.replace('/(participant)');
+        if (!isAuthenticated) {
+            if (!inAuthGroup) {
+                router.replace('/(auth)/login');
+            }
+        } else {
+            if (inAuthGroup || segments.length === 0 || (segments.length === 1 && segments[0] === 'index')) {
+                if (user?.role === 'organizer') {
+                    router.replace('/(organizer)');
+                } else {
+                    router.replace('/(participant)');
+                }
             }
         }
 
@@ -44,9 +48,9 @@ export default function RootLayout() {
                     animation: 'fade',
                 }}
             >
-                <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-                <Stack.Screen name="(organizer)" options={{ headerShown: false }} />
-                <Stack.Screen name="(participant)" options={{ headerShown: false }} />
+                <Stack.Screen name="(auth)" options={{ headerShown: false, animation: 'fade' }} />
+                <Stack.Screen name="(organizer)" options={{ headerShown: false, animation: 'fade' }} />
+                <Stack.Screen name="(participant)" options={{ headerShown: false, animation: 'fade' }} />
             </Stack>
         </GestureHandlerRootView>
     );
